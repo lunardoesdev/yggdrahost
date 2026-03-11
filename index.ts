@@ -6,7 +6,7 @@ function normalizeHost(request: Request) {
     .replace(/:\d+$/, '')
 }
 
-var server = new Elysia()
+const server = new Elysia()
   .onRequest(async (req) => {
     const host = normalizeHost(req.request)
     const app = (await import(`./modules/${host}.ts`)).app as Elysia
