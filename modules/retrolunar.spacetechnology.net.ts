@@ -12,5 +12,6 @@ export const app = new Elysia()
     }).fetch)
     .mount("/weatherbot101", (await weatherbot101.weatherBotApp({
         webhookUrl: `https://${hostname}/weatherbot101`,
-        secretToken: process.env.WEATHERBOT101_SECRET
+        secretToken: process.env.WEATHERBOT101_SECRET,
+        botToken: process.env.WEATHERBOT101_TOKEN || "invalid",
     })).fetch)

@@ -3,7 +3,8 @@ import { Bot, webhookCallback, Context } from "grammy"
 
 // ====================== CONFIG & CACHE SETTINGS ======================
 type Config = {
-  webhookUrl: string
+  webhookUrl: string,
+  botToken: string,
   secretToken?: string
 }
 
@@ -120,7 +121,7 @@ function formatWeather(location: any, weather: any): string {
 
 // ====================== MAIN BOT ======================
 export async function weatherBotApp(config: Config) {
-  const bot = new Bot(process.env.WEATHERBOT101_TOKEN || "")
+  const bot = new Bot(config.botToken)
 
   // Start periodic cache cleanup
   const cleanupTimer = setInterval(() => {
