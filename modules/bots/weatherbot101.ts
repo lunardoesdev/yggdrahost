@@ -120,9 +120,19 @@ function formatWeather(location: any, weather: any): string {
     `<i>Updated: ${new Date(current.time).toLocaleString("en-US")}</i>`
 }
 
+export var setWebhookBack: () => Promise<void>
+
 // ====================== MAIN BOT ======================
 export async function weatherBotApp(config: Config) {
   const bot = new Bot(config.botToken)
+
+  setWebhookBack = async function() {
+        //console.log(config.webhookUrl)
+        await bot.api.setWebhook(config.webhookUrl, {
+            secret_token: config.secretToken,
+            allowed_updates: ["message", "callback_query"],
+        })
+  }
 
   // Start periodic cache cleanup
   const cleanupTimer = setInterval(() => {
