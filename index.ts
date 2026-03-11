@@ -1,10 +1,17 @@
-import {Elysia, t} from 'elysia'
-import retrolunarSpacetechnologyNet from './modules/retrolunar.spacetechnology.net';
+import {Elysia} from 'elysia'
 
-const apiExample = new Elysia()
-    .get("/", () => "api root")
+function normalizeHost(request: Request) {
+  return (request.headers.get('host') ?? '')
+    .toLowerCase()
+    .replace(/:\d+$/, '')
+}
 
-var app = new Elysia()
-retrolunarSpacetechnologyNet.setup(app, "/")
+var server = new Elysia()
+  .onRequest(async (req) => {
+    const host = normalizeHost(req.request)
+    const app = (await import(`./modules/${host}.ts`)).app as Elysia
+    return app.handle(req.request)
+  })
 
-app.listen(3000)
+
+server.listen(3000)
