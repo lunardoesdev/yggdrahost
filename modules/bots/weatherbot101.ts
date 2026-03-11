@@ -5,7 +5,8 @@ import { Bot, webhookCallback, Context } from "grammy"
 type Config = {
   webhookUrl: string,
   botToken: string,
-  secretToken?: string
+  secretToken?: string,
+  localDebug?: boolean,
 }
 
 // Cache TTL (Time To Live)
@@ -59,7 +60,7 @@ async function searchLocation(query: string) {
   const url = new URL("https://geocoding-api.open-meteo.com/v1/search")
   url.searchParams.set("name", query)
   url.searchParams.set("count", "6")
-  url.searchParams.set("language", "ru")
+  url.searchParams.set("language", "en")
   url.searchParams.set("format", "json")
 
   const res = await fetch(url)
@@ -180,18 +181,23 @@ export async function weatherBotApp(config: Config) {
 
   // ====================== ELYSIA ======================
   const app = new Elysia()
-    .get("/aboutbot", () => `Weather Bot running on ${config.webhookUrl}`)
+    if (!config.localDebug) {
+        app
+        .get("/aboutbot", () => `Weather Bot running on ${config.webhookUrl}`)
 
-    .post("/", webhookCallback(bot, "elysia", {
-      secretToken: config.secretToken,
-    }))
+        .post("/", webhookCallback(bot, "elysia", {
+        secretToken: config.secretToken,
+        }))
 
-    //console.log(config.webhookUrl)
-
-    await bot.api.setWebhook(config.webhookUrl, {
-        secret_token: config.secretToken,
-        allowed_updates: ["message", "callback_query"],
-    })
+        //console.log(config.webhookUrl)
+    
+        await bot.api.setWebhook(config.webhookUrl, {
+            secret_token: config.secretToken,
+            allowed_updates: ["message", "callback_query"],
+        })
+    } else {
+        bot.start()
+    }
 
   return app
 }

@@ -1,4 +1,5 @@
 import {Elysia} from 'elysia'
+import '@/gracedown'
 
 function normalizeHost(request: Request) {
   return (request.headers.get('host') ?? '')
