@@ -144,15 +144,6 @@ export async function weatherBotApp(config: Config) {
     process.on("SIGTERM", () => clearInterval(cleanupTimer))
     process.on("SIGINT", () => clearInterval(cleanupTimer))
 
-    // Commands
-    bot.command("start", (ctx) =>
-        ctx.reply(
-            "☀️ <b>Weather Bot</b>\n\n" +
-            "Just send me any city, region or country name.\n" +
-            "Examples: <code>london</code>, <code>new york</code>, <code>tokyo</code>",
-            { parse_mode: "HTML" }
-        )
-    )
 
     // Main handler
     bot.command("weather", async (ctx: Context) => {
