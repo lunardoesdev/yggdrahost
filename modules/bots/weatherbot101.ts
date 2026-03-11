@@ -173,20 +173,6 @@ export async function weatherBotApp(config: Config) {
 
   })
 
-  // Callback handler
-  bot.on("callback_query:data", async (ctx) => {
-    const data = ctx.callbackQuery.data
-    if (!data.startsWith("weather:")) return
-
-    const [, lat, lon, name] = data.split(":")
-    await ctx.answerCallbackQuery()
-
-    const weatherData = await getWeather(parseFloat(lat!), parseFloat(lon!))
-    const message = formatWeather({ name, country: "" }, weatherData)
-
-    await ctx.editMessageText(message, { parse_mode: "HTML" })
-  })
-
   // ====================== ELYSIA ======================
   const app = new Elysia()
     if (!config.localDebug) {
