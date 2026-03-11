@@ -1,0 +1,15 @@
+[Unit]
+Description=My Bun app
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www
+Environment=PATH=/root/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+ExecStart=/root/.bun/bin/bun run start
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
