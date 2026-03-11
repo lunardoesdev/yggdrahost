@@ -1,9 +1,11 @@
 import {Elysia} from "elysia"
 
-function setup(app: Elysia, prefix: string): Elysia {
+export function app(config: {
+    webhookUrl: string
+}) {
+    const app = new Elysia()
+        .get("/aboutbot", "Hello from usernametoidbot from " + `${config.webhookUrl}`)
+        .get("/", "Hello from main bot part from " + `${config.webhookUrl}`)
+    
     return app
-}
-
-export default {
-    setup: setup
 }
