@@ -1,0 +1,1 @@
+export const dir = import.meta.dir
