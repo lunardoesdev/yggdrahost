@@ -148,6 +148,9 @@ export async function weatherBotApp(config: Config) {
     // Main handler
     bot.command("weather", async (ctx: Context) => {
         const location = ctx.match?.toString() || "undefined"
+        if (location == "undefined") {
+            return ctx.reply("after /weather must come location, like /weather London")
+        }
 
         await ctx.replyWithChatAction("typing")
 
