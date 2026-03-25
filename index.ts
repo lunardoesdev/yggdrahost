@@ -1,6 +1,8 @@
 import {Elysia} from 'elysia'
 import '@/gracedown'
 
+import * as _spacetech from '@/modules/retrolunar.spacetechnology.net'
+
 function normalizeHost(request: Request) {
   return (request.headers.get('host') ?? '')
     .toLowerCase()
